@@ -1,0 +1,3 @@
+[submodule "bundles/theme"]
+	path = bundles/theme
+	url = git@github.com:raftalks/Laravel_Theme_Bundle.git
