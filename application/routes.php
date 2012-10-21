@@ -34,7 +34,50 @@
 
 Route::get('/', function()
 {
-	return View::make('home.index');
+		$theme = IoC::resolve('Theme');
+		$theme->set_theme("xayona"); //default theme can also be defined in the theme bundle start.php file within the IoC container.
+		$theme->title('Home Page');
+
+		//pass data to theme partial with theme->composer
+		$theme->composer('header', function($view){
+            $view->nest('header_main_menu', 'blog.mainmenu');
+ 		});
+
+		$theme->composer('footer', function($view){
+            $view->nest('footer_menu', 'blog.mainmenu');
+ 		});
+
+ 		$theme->composer('featured', function($view){
+            $view->nest('featured_content', 'blog.latestblogitems');
+ 		});
+
+	
+	 	return $theme->render('blog.home');
+		
+});
+
+Route::get('/(:any).html',function(){
+
+		$theme = IoC::resolve('Theme');
+		$theme->set_theme("xayona"); 
+		//$theme->set_theme("zencode"); //we can also set a different theme if we want to use
+		$theme->set_layout('blog'); // we have selected a different theme layout too.
+		$theme->title('Home Page');
+
+		//pass data to theme partial with theme->composer
+		$theme->composer('header', function($view){
+            $view->nest('header_main_menu', 'blog.mainmenu');
+ 		});
+
+		$theme->composer('footer', function($view){
+            $view->nest('footer_menu', 'blog.mainmenu');
+ 		});
+
+ 		$theme->composer('featured', function($view){
+            $view->nest('featured_content', 'blog.latestblogitems');
+ 		});
+	
+	 	return $theme->render('blog.blog');
 });
 
 /*
